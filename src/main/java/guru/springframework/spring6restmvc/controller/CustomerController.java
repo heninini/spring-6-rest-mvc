@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controller;
 
-import guru.springframework.spring6restmvc.model.Customer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,24 +25,24 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateCustomer(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer){
+    public ResponseEntity updateCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customer){
          customerService.updateCustomerById(customer, customerId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity saveCustomer(@RequestBody Customer customer){
-         Customer savedCustomer= customerService.saveCustomer(customer);
+    public ResponseEntity saveCustomer(@RequestBody CustomerDTO customer){
+         CustomerDTO savedCustomer= customerService.saveCustomer(customer);
          HttpHeaders header=new HttpHeaders();
          header.add("Location",CUSTOMER_PATH+ savedCustomer.getId().toString());
         return new ResponseEntity(header, HttpStatus.CREATED);
     }
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers(){
+    public List<CustomerDTO> listCustomers(){
         return  customerService.listCustomers();
     }
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getById(@PathVariable("customerId") UUID customerId){
+    public CustomerDTO getById(@PathVariable("customerId") UUID customerId){
 
         return customerService.getById(customerId);
     }
